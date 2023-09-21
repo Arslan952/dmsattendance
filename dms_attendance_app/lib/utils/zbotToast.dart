@@ -1,12 +1,9 @@
-import 'package:bot_toast/bot_toast.dart';
+import 'package:dms_attendance_app/export.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
-import '../resources/resources.dart';
-import 'myLoader.dart';
 
 class ZBotToast {
+
   static loadingShow() async {
     BotToast.showCustomLoading(
         toastBuilder: (func) {
@@ -44,7 +41,7 @@ class ZBotToast {
                 child: Row(
                   children: <Widget>[
                     Icon(CupertinoIcons.check_mark_circled,
-                        color: Colors.white),
+                        color: Colors.white,size:(Get.height+Get.width)*0.02,),
                     const SizedBox(width: 12),
                     Flexible(
                       child: Column(
@@ -52,7 +49,7 @@ class ZBotToast {
                         children: <Widget>[
                           Text(
                             message!,
-                            style: const TextStyle(color: Colors.white),
+                            style: TextStyle(color: Colors.white,fontSize: (Get.height+Get.width)*0.01),
                           ),
                         ],
                       ),
@@ -88,21 +85,23 @@ class ZBotToast {
                     borderRadius: BorderRadius.circular(10)),
                 child: Row(
                   children: <Widget>[
-                    const Icon(Icons.warning_amber_rounded,
-                        color: Colors.white),
+                        Icon(Icons.warning_amber_rounded,
+                        color: Colors.white,size: (Get.height+Get.width)*0.02,),
                     const SizedBox(width: 12),
                     Flexible(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
-                          const Text('Oops!',
+                              Text('Oops!',
                               style: TextStyle(
                                   color: Colors.white,
-                                  fontWeight: FontWeight.bold)),
+                                  fontWeight: FontWeight.bold,
+                                fontSize: (Get.height+Get.width)*0.01
+                              )),
                           const SizedBox(height: 8),
                           Text(
                             message ?? "",
-                            style: const TextStyle(color: Colors.white),
+                            style:  TextStyle(color: Colors.white,fontSize: (Get.height+Get.width)*0.01),
                           ),
                         ],
                       ),

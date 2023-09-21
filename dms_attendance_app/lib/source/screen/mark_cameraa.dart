@@ -2,9 +2,8 @@
 
 import 'dart:io';
 
-import 'package:dms_attendance_app/resources/app_colors.dart';
-import 'package:face_camera/face_camera.dart';
-import 'package:flutter/material.dart';
+import 'package:dms_attendance_app/export.dart';
+
 
 class MarkCamera extends StatefulWidget {
   const MarkCamera({super.key});
@@ -16,30 +15,7 @@ class MarkCamera extends StatefulWidget {
 class _MarkCameraState extends State<MarkCamera> {
   bool isloading = false;
 
-  Future<void> _showImageDialog(double size) async {
-    await Future.delayed(const Duration(seconds: 2));
-    setState(() {
-      isloading = true;
-    });
-    await showDialog<void>(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: const Text('Attendance Status'),
-          content: const Text("Attendance Marked"),
-          actions: <Widget>[
-            TextButton(
-              child: Text('Ok'),
-              onPressed: () {
-                Navigator.of(context).pop();
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
-        );
-      },
-    );
-  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -47,45 +23,45 @@ class _MarkCameraState extends State<MarkCamera> {
     var allsize =
         MediaQuery.of(context).size.height + MediaQuery.of(context).size.width;
     return Scaffold(
-      body: Stack(
-        children: [
-          SmartFaceCamera(
-            autoCapture: true,
-            defaultCameraLens: CameraLens.front,
-            imageResolution: ImageResolution.ultraHigh,
-            message: 'Center your face in the square',
-            showCameraLensControl: false,
-            showFlashControl: false,
-            onCapture: (File? image) {
-              setState(() {
-                isloading = true;
-              });
-              _showImageDialog(allsize);
-            },
-            messageBuilder: (context, face) {
-              if (face == null) {
-                return _message('Place your face in the camera');
-              }
-              if (!face.wellPositioned) {
-                return _message('Center your face in the square');
-              }
-              return const SizedBox.shrink();
-            },
-          ),
-          isloading == true
-              ? Container(
-                  height: size.height * 1,
-                  width: size.width * 1,
-                  color: Colors.black54,
-                  child: Center(
-                    child: CircularProgressIndicator(
-                      color: AppColors().buttonColor,
-                    ),
-                  ),
-                )
-              : Container()
-        ],
-      ),
+      body: Consumer<RegisterUser>(builder: (context,markattendanceprovider, child) {
+        return  Stack(
+          children: [
+            SmartFaceCamera(
+              // autoCapture: true,
+              defaultCameraLens: CameraLens.front,
+              imageResolution: ImageResolution.ultraHigh,
+              message: 'Center your face in the square',
+              showCameraLensControl: false,
+              showFlashControl: false,
+              onCapture: (File? image) async{
+                await markattendanceprovider.MarkAttendance(image!.path,context);
+              },
+              messageBuilder: (context, face) {
+                if (face == null) {
+                  return _message('Place your face in the camera');
+                }
+                if (!face.wellPositioned) {
+                  return _message('Center your face in the square');
+                }
+                return const SizedBox.shrink();
+              },
+            ),
+          markattendanceprovider.changeindicator == true
+                ? Container(
+              height: size.height * 1,
+              width: size.width * 1,
+              color: Colors.black54,
+              child: Center(
+                child: CircularProgressIndicator(
+                  color: AppColors().buttonColor,
+                ),
+              ),
+            )
+                : Container()
+          ],
+        );
+      })
+
     );
   }
 

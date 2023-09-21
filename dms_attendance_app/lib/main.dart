@@ -1,13 +1,14 @@
-import 'package:dms_attendance_app/resources/app_colors.dart';
-import 'package:dms_attendance_app/source/screen/mark_attendance.dart';
-import 'package:face_camera/face_camera.dart';
-import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'export.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized(); //Add this
   await FaceCamera.initialize();
-  runApp(const MyApp());
+  runApp(
+    ChangeNotifierProvider(
+      create: (_) => RegisterUser(),
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -23,6 +24,8 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: AppColors().buttonColor),
         useMaterial3: true,
       ),
+      builder: BotToastInit(), //1. call BotToastInit
+      navigatorObservers: [BotToastNavigatorObserver()],
       home: const AttendanceScreen(),
     );
   }

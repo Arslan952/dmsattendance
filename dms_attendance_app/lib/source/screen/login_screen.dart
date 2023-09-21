@@ -1,9 +1,6 @@
-import 'package:dms_attendance_app/resources/app_colors.dart';
-import 'package:dms_attendance_app/source/screen/createAccount.dart';
-import 'package:dms_attendance_app/source/widget/buttonWidget.dart';
-import 'package:dms_attendance_app/source/widget/formfield.dart';
-import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:dms_attendance_app/export.dart';
+
+
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -13,6 +10,8 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  TextEditingController emailcontroller=TextEditingController();
+  TextEditingController password=TextEditingController();
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
@@ -58,6 +57,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   padding: EdgeInsets.symmetric(horizontal: size.width * 0.15),
                   child: FormFieldWidget(
                     hint: 'Enter your Email',
+                    controller: emailcontroller,
                   ),
                 ),
                 SizedBox(
@@ -67,6 +67,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   padding: EdgeInsets.symmetric(horizontal: size.width * 0.15),
                   child: FormFieldWidget(
                     hint: 'Enter your Password',
+                    controller: password,
                   ),
                 ),
                 SizedBox(
@@ -74,7 +75,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
                 InkWell(
                   onTap: () {
-                    Get.to(const RegisterScreen());
+                    Get.to(RegisterScreen());
                   },
                   child: Padding(
                     padding:

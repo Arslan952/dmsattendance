@@ -1,13 +1,11 @@
-import 'package:flutter/material.dart';
-
-import '../../resources/app_colors.dart';
+import 'package:dms_attendance_app/export.dart';
 
 class FormFieldWidget extends StatefulWidget {
-  // TextEditingController controller;
+  TextEditingController controller;
   String hint;
 
   FormFieldWidget({super.key, required this.hint
-      // ,required this.controller
+      ,required this.controller
       });
 
   @override
@@ -21,6 +19,7 @@ class _FormFieldWidgetState extends State<FormFieldWidget> {
     var allsize =
         MediaQuery.of(context).size.height + MediaQuery.of(context).size.width;
     return TextFormField(
+      controller: widget.controller,
       style: TextStyle(
           color: const Color(0xff707070),
           fontSize: allsize * 0.012,

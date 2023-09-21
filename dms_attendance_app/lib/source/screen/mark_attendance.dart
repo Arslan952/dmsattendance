@@ -1,10 +1,4 @@
-import 'package:dms_attendance_app/resources/app_colors.dart';
-import 'package:dms_attendance_app/source/screen/login_screen.dart';
-import 'package:dms_attendance_app/source/screen/mark_cameraa.dart';
-import 'package:dms_attendance_app/source/widget/buttonWidget.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:get/get.dart';
+import 'package:dms_attendance_app/export.dart';
 
 class AttendanceScreen extends StatefulWidget {
   const AttendanceScreen({super.key});
