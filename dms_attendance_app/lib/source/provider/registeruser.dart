@@ -2,13 +2,16 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:dms_attendance_app/export.dart';
+import 'package:dms_attendance_app/source/widget/faileddialugue.dart';
 import 'package:http/http.dart' as http;
 
+import '../widget/sucessDialugue.dart';
+
 class RegisterUser extends ChangeNotifier {
-  bool changeindicator= false;
+  bool changeindicator = false;
 
   change(bool indicator) {
-    changeindicator= indicator;
+    changeindicator = indicator;
     notifyListeners();
   }
 
@@ -17,7 +20,7 @@ class RegisterUser extends ChangeNotifier {
     String name,
   ) async {
 
-    final url = Uri.parse('http://192.168.1.15:3000/upload');
+    final url = Uri.parse('http://192.168.1.11:3000/upload');
 
     // Create a multipart request
     final request = http.MultipartRequest('POST', url);
@@ -44,7 +47,7 @@ class RegisterUser extends ChangeNotifier {
       if (response.statusCode == 200) {
         var responsecheck = await response.stream.bytesToString();
         var data = jsonDecode(responsecheck);
-        debugPrint(data);
+        debugPrint(data.toString());
         ZBotToast.showToastSuccess(message: data['message']);
       } else {
         var data = jsonDecode(response.reasonPhrase!);
@@ -62,7 +65,7 @@ class RegisterUser extends ChangeNotifier {
       String image,
       BuildContext context
       ) async {
-    var request = http.MultipartRequest('POST', Uri.parse('http://192.168.1.15:3000/verify'));
+    var request = http.MultipartRequest('POST', Uri.parse('http://192.168.1.11:3000/verify'));
     request.fields.addAll({
       'collections': 'OSO'
     });
@@ -74,41 +77,21 @@ class RegisterUser extends ChangeNotifier {
       var respo=await response.stream.bytesToString();
       List<dynamic> data=jsonDecode(respo);
       if(data.isEmpty){
-        await showDialog(
+        showDialog(
           context: context,
           builder: (BuildContext context) {
-            return AlertDialog(
-              title: const Text('Attendance Status'),
-              content: const Text("Person Not Found"),
-              actions: <Widget>[
-                TextButton(
-                  child: Text('Ok'),
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                    Navigator.of(context).pop();
-                  },
-                ),
-              ],
+            return CustomFailedDialugue(
+              message: 'Person Not Found',
             );
           },
         );
       }
       else{
-        await showDialog(
+        showDialog(
           context: context,
           builder: (BuildContext context) {
-            return AlertDialog(
-              title: const Text('Attendance Status'),
-              content:  Text('${data[0]['name']} Your Attendance Marked'),
-              actions: <Widget>[
-                TextButton(
-                  child: Text('Ok'),
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                    Navigator.of(context).pop();
-                  },
-                ),
-              ],
+            return CustomSucessDialugue(
+              message: '${data[0]['name']} Your Attendance Marked',
             );
           },
         );

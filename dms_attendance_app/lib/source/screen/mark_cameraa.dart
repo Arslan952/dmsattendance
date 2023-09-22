@@ -3,6 +3,7 @@
 import 'dart:io';
 
 import 'package:dms_attendance_app/export.dart';
+import 'package:lottie/lottie.dart';
 
 
 class MarkCamera extends StatefulWidget {
@@ -20,8 +21,7 @@ class _MarkCameraState extends State<MarkCamera> {
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
-    var allsize =
-        MediaQuery.of(context).size.height + MediaQuery.of(context).size.width;
+    var allsize=MediaQuery.of(context).size.height+MediaQuery.of(context).size.width;
     return Scaffold(
       body: Consumer<RegisterUser>(builder: (context,markattendanceprovider, child) {
         return  Stack(
@@ -36,12 +36,23 @@ class _MarkCameraState extends State<MarkCamera> {
               onCapture: (File? image) async{
                 await markattendanceprovider.MarkAttendance(image!.path,context);
               },
+              captureControlIcon:Container(
+                height: allsize*0.06,
+                width: allsize*0.06,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(100),
+                  color: const Color(0xfff5e5e5),
+                ),
+                child: Center(
+                  child:Icon(Icons.camera,size: allsize*0.03,),
+                ),
+              ),
               messageBuilder: (context, face) {
                 if (face == null) {
-                  return _message('Place your face in the camera');
+                  return _message('Place your face in the camera',size);
                 }
                 if (!face.wellPositioned) {
-                  return _message('Center your face in the square');
+                  return _message('Center your face in the square',size);
                 }
                 return const SizedBox.shrink();
               },
@@ -52,8 +63,8 @@ class _MarkCameraState extends State<MarkCamera> {
               width: size.width * 1,
               color: Colors.black54,
               child: Center(
-                child: CircularProgressIndicator(
-                  color: AppColors().buttonColor,
+                child:Container(
+                  child:  Lottie.asset('assets/lottie/animation_lmt7mafg.json'),
                 ),
               ),
             )
@@ -65,16 +76,16 @@ class _MarkCameraState extends State<MarkCamera> {
     );
   }
 
-  Widget _message(String msg) => Padding(
+  Widget _message(String msg,Size size) => Padding(
         padding: EdgeInsets.symmetric(
             horizontal: MediaQuery.of(context).size.height * 0.1,
             vertical: MediaQuery.of(context).size.width * 0.1),
         child: Text(msg,
             textAlign: TextAlign.center,
             style: TextStyle(
-                fontSize: 16,
+                fontSize: (MediaQuery.of(context).size.height+MediaQuery.of(context).size.width)*0.013,
                 height: 1.5,
-                fontWeight: FontWeight.bold,
-                color: AppColors().buttonColor)),
+                fontWeight: FontWeight.w400,
+                color: AppColors().buttonColor))
       );
 }

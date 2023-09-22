@@ -174,6 +174,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               ZBotToast.showToastError(message: 'Please Capture Images');
                             }
                           else{
+                            print(image);
+                            print(namecontroller.text);
                             provider.sendUserRegister(image, namecontroller.text);
                           }
                         },
@@ -184,24 +186,24 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       alignment: Alignment.bottomCenter,
                       children: [
                         Image.asset("assets/images/Waves.jpg"),
-                        Positioned(
-                            bottom: size.height * 0.05,
-                            child: Row(
-                              children: [
-                                Text(
-                                  "Already have an account?",
-                                  style: TextStyle(fontSize: allsize * 0.012),
-                                ),
-                                TextButton(
-                                    onPressed: () {},
-                                    child: Text("Login",
-                                        style: TextStyle(
-                                            fontSize: allsize * 0.012,
-                                            color: AppColors().textbuttonColor,
-                                            decoration:
-                                                TextDecoration.underline)))
-                              ],
-                            )),
+                        // Positioned(
+                        //     bottom: size.height * 0.05,
+                        //     child: Row(
+                        //       children: [
+                        //         Text(
+                        //           "Already have an account?",
+                        //           style: TextStyle(fontSize: allsize * 0.012),
+                        //         ),
+                        //         TextButton(
+                        //             onPressed: () {},
+                        //             child: Text("Login",
+                        //                 style: TextStyle(
+                        //                     fontSize: allsize * 0.012,
+                        //                     color: AppColors().textbuttonColor,
+                        //                     decoration:
+                        //                         TextDecoration.underline)))
+                        //       ],
+                        //     )),
                       ],
                     )
                   ],

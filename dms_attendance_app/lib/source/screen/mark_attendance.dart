@@ -1,4 +1,7 @@
 import 'package:dms_attendance_app/export.dart';
+import 'package:dms_attendance_app/source/widget/sucessDialugue.dart';
+
+import '../widget/faileddialugue.dart';
 
 class AttendanceScreen extends StatefulWidget {
   const AttendanceScreen({super.key});
