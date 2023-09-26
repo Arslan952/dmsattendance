@@ -4,10 +4,12 @@ import 'dart:io';
 
 import 'package:dms_attendance_app/export.dart';
 import 'package:lottie/lottie.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 
 class MarkCamera extends StatefulWidget {
-  const MarkCamera({super.key});
+  String clock;
+  MarkCamera({super.key,required this.clock});
 
   @override
   State<MarkCamera> createState() => _MarkCameraState();
@@ -32,9 +34,12 @@ class _MarkCameraState extends State<MarkCamera> {
               imageResolution: ImageResolution.ultraHigh,
               message: 'Center your face in the square',
               showCameraLensControl: false,
+              enableAudio: false,
               showFlashControl: false,
               onCapture: (File? image) async{
-                await markattendanceprovider.MarkAttendance(image!.path,context);
+                final SharedPreferences prefs = await SharedPreferences.getInstance();
+                String id=prefs.getString('siteid')!;
+                await markattendanceprovider.MarkAttendance(image!.path,id,widget.clock,context);
               },
               captureControlIcon:Container(
                 height: allsize*0.06,

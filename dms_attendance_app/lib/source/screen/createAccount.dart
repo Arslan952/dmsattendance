@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:dms_attendance_app/export.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class RegisterScreen extends StatefulWidget {
   RegisterScreen({
@@ -17,7 +18,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
   TextEditingController number = TextEditingController();
   TextEditingController pin = TextEditingController();
   List<String> image = [];
-
+  bool checkeemail(String email){
+    final bool emailValid =
+    RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+        .hasMatch(email);
+    return emailValid;
+  }
   @override
   Widget build(BuildContext context) {
     var pro=Provider.of<RegisterUser>(context,listen: false);
@@ -100,17 +106,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       ),
                     ),
                     SizedBox(
-                      height: size.height * 0.02,
-                    ),
-                    Padding(
-                      padding:
-                          EdgeInsets.symmetric(horizontal: size.width * 0.15),
-                      child: FormFieldWidget(
-                        hint: 'Enter Your PIN',
-                        controller: pin,
-                      ),
-                    ),
-                    SizedBox(
                       height: size.height * 0.03,
                     ),
                     image.isNotEmpty
@@ -129,10 +124,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               ),
                               itemBuilder: (BuildContext context, int index) {
                                 return Center(
-                                  child: Image.file(
-                                    File(image[index]),
-                                    width: size.width * 0.28,
-                                    fit: BoxFit.fill,
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      border: Border.all(color: AppColors().buttonColor),
+                                    ),
+                                    child: Image.file(
+                                      File(image[index]),
+                                      width: size.width * 0.28,
+                                      fit: BoxFit.cover,
+                                    ),
                                   ),
                                 );
                               },
@@ -164,24 +164,34 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       padding:
                           EdgeInsets.symmetric(horizontal: size.width * 0.15),
                       child: ButtonWidget(
-                        ontap: () {
+                        ontap: () async{
+                          final SharedPreferences prefs = await SharedPreferences.getInstance();
+                          String id=prefs.getString('siteid')!;
                           if(namecontroller.text=="")
                             {
                               ZBotToast.showToastError(message: "Please Enter Name");
                             }
+                         else if(checkeemail(email.text)==false)
+                          {
+                            ZBotToast.showToastError(message: "Please Enter Email");
+                          }
+                          else if(number.text=="")
+                          {
+                            ZBotToast.showToastError(message: "Please Enter Phone Number");
+                          }
                           else if(image.isEmpty)
                             {
                               ZBotToast.showToastError(message: 'Please Capture Images');
                             }
                           else{
-                            print(image);
-                            print(namecontroller.text);
-                            provider.sendUserRegister(image, namecontroller.text);
+                            // provider.sendUserRegisterDirect(image, namecontroller.text,email.text,number.text,context);
+                            provider.sendUserRegister(image, namecontroller.text,email.text,number.text,id,context);
                           }
                         },
                         title: 'Save',
                       ),
                     ),
+                    SizedBox(height: size.height*0.1,),
                     Stack(
                       alignment: Alignment.bottomCenter,
                       children: [

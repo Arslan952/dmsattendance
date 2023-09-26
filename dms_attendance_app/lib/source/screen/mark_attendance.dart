@@ -35,7 +35,7 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
                 padding: EdgeInsets.symmetric(horizontal: size.width * 0.15),
                 child: InkWell(
                     onTap: () {
-                      Get.to(const MarkCamera());
+                      Get.to( MarkCamera(clock: 'Clock-In',));
                     },
                     child: ButtonWidget(
                       title: 'Clock In',
@@ -46,7 +46,7 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
               ),
               InkWell(
                 onTap: () {
-                  Get.to(const MarkCamera());
+                  Get.to(MarkCamera(clock: 'Clock-Out',));
                 },
                 child: Padding(
                   padding: EdgeInsets.symmetric(horizontal: size.width * 0.15),

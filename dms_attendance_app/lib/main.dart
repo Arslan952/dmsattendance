@@ -1,3 +1,6 @@
+import 'package:dms_attendance_app/services/navigationserice.dart';
+import 'package:dms_attendance_app/source/screen/sitescreen.dart';
+
 import 'export.dart';
 
 Future<void> main() async {
@@ -18,6 +21,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
+      navigatorKey: NavigationService.navigatorKey, // set property
       debugShowCheckedModeBanner: false,
       title: 'DMS Attendance App',
       theme: ThemeData(
@@ -26,7 +30,7 @@ class MyApp extends StatelessWidget {
       ),
       builder: BotToastInit(), //1. call BotToastInit
       navigatorObservers: [BotToastNavigatorObserver()],
-      home: const AttendanceScreen(),
+      home: const SiteScreen(),
     );
   }
 }

@@ -18,3 +18,7 @@ export 'package:flutter_svg/svg.dart';
 export 'source/screen/createAccount.dart';
 export 'package:camera/camera.dart';
 export 'package:flutter/services.dart';
+export 'services/navigationserice.dart';
+export 'source/widget/faileddialugue.dart';
+export 'source/widget/sucessDialugue.dart';
+export 'source/widget/optionDialugue.dart';

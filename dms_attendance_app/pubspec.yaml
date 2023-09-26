@@ -45,6 +45,7 @@ dependencies:
   face_camera: ^0.0.8
   http: ^1.1.0
   lottie: ^2.6.0
+  shared_preferences: ^2.2.1
 
 dev_dependencies:
   flutter_test:

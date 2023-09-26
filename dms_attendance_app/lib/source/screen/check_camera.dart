@@ -11,6 +11,7 @@ class CheckCamera extends StatefulWidget {
 
 class _CheckCameraState extends State<CheckCamera> {
   bool spark = false;
+  List<String>addititional=[];
   List<String> capturedImages = ["", "", "", ""]; // To store captured images
   final directions = ['Front', 'Right', 'Left', 'Up'];
   int currentCaptureIndex =
@@ -30,6 +31,7 @@ class _CheckCameraState extends State<CheckCamera> {
               defaultCameraLens: CameraLens.front,
               imageResolution: ImageResolution.ultraHigh,
               showCameraLensControl: false,
+              enableAudio: false,
               showFlashControl: false,
               captureControlIcon:Container(
                 height: allsize*0.06,
@@ -66,9 +68,10 @@ class _CheckCameraState extends State<CheckCamera> {
                   if (currentCaptureIndex == capturedImages.length) {
                     // All images captured, you can perform further actions here
                   }
-                } else {
-                  ZBotToast.showToastError(
-                      message: 'Please Take a proper photo of Face');
+                }
+                else {
+                 addititional.add(image!.path);
+                 currentCaptureIndex++;
                 }
               },
               // messageBuilder: (context, face) {
@@ -85,21 +88,27 @@ class _CheckCameraState extends State<CheckCamera> {
               // },
             ),
             // Add a submit button when all images are captured
-            if (currentCaptureIndex < capturedImages.length)
+            currentCaptureIndex < capturedImages.length?
               Container(
                 color: const Color(0xfff5e5e5),
                 height: size.height*0.06,
                 width: size.width*1,
                 child: _message('Capture ${directions[currentCaptureIndex]} Side of Face',
                     size),
-              ),
-            currentCaptureIndex == capturedImages.length
+              ):Container(
+              color: const Color(0xfff5e5e5),
+              height: size.height*0.06,
+              width: size.width*1,
+              child: _message('Additional Images',
+                  size),
+            ),
+            currentCaptureIndex == capturedImages.length ||  currentCaptureIndex > capturedImages.length
                 ? Positioned(
                     bottom: 20,
                     right: 20,
                     child: ElevatedButton(
                       onPressed: () {
-                        Navigator.pop(context, capturedImages);
+                        Navigator.pop(context, capturedImages+addititional);
                       },
                       child: const Text('Submit'),
                     ),
